@@ -102,10 +102,10 @@ const styles = {
     margin: "0 auto"
   },
   layout: {
-    display: "grid",
-    gridTemplateColumns: "300px 1fr",
-    gap: "25px"
-  },
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+  gap: "25px"
+},
   profileCard: {
     background: "#fff",
     borderRadius: "10px",
@@ -179,10 +179,10 @@ const styles = {
     gap: "20px"
   },
   topStats: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3,1fr)",
-    gap: "15px"
-  },
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+  gap: "15px"
+},
   statBox: {
     background: "#fff",
     padding: "20px",
