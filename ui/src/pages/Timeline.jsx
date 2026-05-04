@@ -1,19 +1,20 @@
 import { useState } from "react";
-import timeline from "../data/timeline";
+import { useOutletContext } from "react-router-dom";
 
 function Timeline() {
-  const [filter, setFilter] = useState("all");
+  const { timeline } = useOutletContext();
+  const [filter, setFilter] = useState("All");
 
-  const filtered =
-    filter === "all"
+  const filteredTimeline =
+    filter === "All"
       ? timeline
-      : timeline.filter((t) => t.type === filter);
+      : timeline.filter((item) => item.type === filter);
 
   const getIcon = (type) => {
-    if (type === "meetup") return "🤝";
-    if (type === "text") return "💬";
-    if (type === "video") return "📹";
-    if (type === "call") return "📞";
+    if (type === "Call") return "📞";
+    if (type === "Text") return "💬";
+    if (type === "Video") return "📹";
+    return "🤝";
   };
 
   return (
@@ -21,38 +22,38 @@ function Timeline() {
       <div style={styles.container}>
         <h1 style={styles.title}>Timeline</h1>
 
-        {/* Filter */}
         <select
           style={styles.filter}
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <option value="all">Filter timeline</option>
-          <option value="meetup">Meetups</option>
-          <option value="text">Texts</option>
-          <option value="video">Videos</option>
-          <option value="call">Calls</option>
+          <option value="All">Filter timeline</option>
+          <option value="Call">Call</option>
+          <option value="Text">Text</option>
+          <option value="Video">Video</option>
         </select>
 
-        {/* List */}
-        <div style={styles.list}>
-          {filtered.map((item) => (
-            <div key={item.id} style={styles.card}>
-              <div style={styles.left}>
+        {filteredTimeline.length === 0 ? (
+          <div style={styles.emptyBox}>
+            <p>No interactions yet</p>
+            <small>Go to a friend profile and use Call, Text, or Video.</small>
+          </div>
+        ) : (
+          <div style={styles.list}>
+            {filteredTimeline.map((item) => (
+              <div key={item.id} style={styles.card}>
                 <span style={styles.icon}>{getIcon(item.type)}</span>
 
                 <div>
                   <h3 style={styles.text}>
-                    {item.type.charAt(0).toUpperCase() +
-                      item.type.slice(1)}{" "}
-                    with {item.name}
+                    {item.type} with {item.name}
                   </h3>
                   <p style={styles.date}>{item.date}</p>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -63,7 +64,8 @@ export default Timeline;
 const styles = {
   page: {
     background: "#f6f8fa",
-    padding: "50px 20px"
+    padding: "50px 20px",
+    minHeight: "620px"
   },
   container: {
     maxWidth: "900px",
@@ -76,10 +78,20 @@ const styles = {
     color: "#1f2937"
   },
   filter: {
-    padding: "10px",
+    width: "260px",
+    padding: "12px",
     borderRadius: "6px",
     border: "1px solid #ddd",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    color: "#6b7280",
+    background: "#fff"
+  },
+  emptyBox: {
+    background: "#fff",
+    padding: "30px",
+    borderRadius: "8px",
+    color: "#6b7280",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
   },
   list: {
     display: "flex",
@@ -90,15 +102,13 @@ const styles = {
     background: "#fff",
     padding: "18px",
     borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
-  },
-  left: {
+    boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
     display: "flex",
     alignItems: "center",
     gap: "15px"
   },
   icon: {
-    fontSize: "22px"
+    fontSize: "24px"
   },
   text: {
     margin: 0,

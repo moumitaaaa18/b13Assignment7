@@ -1,41 +1,64 @@
-import friends from "../data/friends";
+import { useOutletContext } from "react-router-dom";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  Tooltip,
+  ResponsiveContainer
+} from "recharts";
 
 function Stats() {
-  const total = friends.length;
-  const onTrack = friends.filter(f => f.daysAgo < 30).length;
-  const needAttention = friends.filter(f => f.daysAgo >= 30).length;
+  const { timeline } = useOutletContext();
 
-  // category count
-  const categories = {};
-  friends.forEach(f => {
-    categories[f.category] = (categories[f.category] || 0) + 1;
-  });
+  const callCount = timeline.filter((item) => item.type === "Call").length;
+  const textCount = timeline.filter((item) => item.type === "Text").length;
+  const videoCount = timeline.filter((item) => item.type === "Video").length;
+
+  const data = [
+    { name: "Text", value: textCount, color: "#7c3aed" },
+    { name: "Call", value: callCount, color: "#1f5c3f" },
+    { name: "Video", value: videoCount, color: "#2fac66" }
+  ];
+
+  const hasData = data.some((item) => item.value > 0);
 
   return (
     <section style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>Your Relationship Stats</h1>
-        <p style={styles.subtitle}>
-          Insights into how you're maintaining your connections.
-        </p>
+        <h1 style={styles.title}>Friendship Analytics</h1>
 
-        {/* Top stats */}
-        <div style={styles.stats}>
-          <div style={styles.card}><h2>{total}</h2><p>Total Friends</p></div>
-          <div style={styles.card}><h2>{onTrack}</h2><p>On Track</p></div>
-          <div style={styles.card}><h2>{needAttention}</h2><p>Need Attention</p></div>
-        </div>
+        <div style={styles.chartCard}>
+          <h3 style={styles.cardTitle}>By Interaction Type</h3>
 
-        {/* Category breakdown */}
-        <h2 style={styles.sectionTitle}>Category Breakdown</h2>
+          {hasData ? (
+            <ResponsiveContainer width="100%" height={320}>
+              <PieChart>
+                <Tooltip />
+                <Pie
+                  data={data}
+                  dataKey="value"
+                  nameKey="name"
+                  innerRadius={75}
+                  outerRadius={110}
+                  paddingAngle={6}
+                >
+                  {data.map((entry) => (
+                    <Cell key={entry.name} fill={entry.color} />
+                  ))}
+                </Pie>
 
-        <div style={styles.grid}>
-          {Object.entries(categories).map(([key, value]) => (
-            <div key={key} style={styles.categoryCard}>
-              <h3>{key}</h3>
-              <p>{value} friends</p>
+                <Legend
+                  verticalAlign="bottom"
+                  iconType="circle"
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div style={styles.empty}>
+              No interaction data yet
             </div>
-          ))}
+          )}
         </div>
       </div>
     </section>
@@ -47,53 +70,36 @@ export default Stats;
 const styles = {
   page: {
     background: "#f6f8fa",
-    padding: "50px 20px"
+    minHeight: "620px",
+    padding: "75px 20px"
   },
   container: {
-    maxWidth: "900px",
+    maxWidth: "1180px",
     margin: "0 auto"
   },
   title: {
-    fontSize: "32px",
+    fontSize: "42px",
     fontWeight: "800",
     color: "#1f2937",
-    marginBottom: "10px"
-  },
-  subtitle: {
-    color: "#6b7280",
     marginBottom: "30px"
   },
-
-  stats: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "20px",
-    marginBottom: "40px"
-  },
-  card: {
+  chartCard: {
     background: "#fff",
-    padding: "25px",
     borderRadius: "8px",
-    textAlign: "center",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+    padding: "34px",
+    minHeight: "360px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.06)"
   },
-
-  sectionTitle: {
-    fontSize: "20px",
-    marginBottom: "20px",
-    color: "#1f2937"
+  cardTitle: {
+    color: "#1f5c3f",
+    fontSize: "18px",
+    marginBottom: "20px"
   },
-
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-    gap: "15px"
-  },
-  categoryCard: {
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    textAlign: "center",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
+  empty: {
+    height: "250px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#6b7280"
   }
 };

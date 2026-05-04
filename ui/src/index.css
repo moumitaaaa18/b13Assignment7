@@ -387,4 +387,9 @@ select {
     justify-content: center;
     gap: 20px;
   }
+  @keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 }
