@@ -1,16 +1,56 @@
-# React + Vite
+KeenKeeper Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React (Vite) based web application to manage friendships and track interactions like Call, Text, and Video.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Features
 
-## React Compiler
+- Home page with friend cards
+- Friend details page (Call, Text, Video options)
+- Timeline page (shows interaction history)
+- Stats page (Pie chart using Recharts)
+- Toast notification when clicking Call/Text/Video
+- Loading animation when navigating between pages
+- 404 page for invalid routes
+- Responsive design (mobile, tablet, desktop)
+- Footer section (based on design)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+How it works
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Click on a friend card → opens friend details
+- Click Call / Text / Video →
+  - Shows toast message
+  - Adds activity to Timeline
+- Timeline becomes empty again after refresh
+
+---
+
+Technologies Used
+
+- React (Vite)
+- React Router DOM
+- Recharts
+- React Toastify
+- CSS
+
+---
+
+Run the project
+
+npm install
+npm run dev
+
+---
+
+Build
+
+npm run build
+
+---
+
+Deployment
+
+This project is deployed using Vercel.
