@@ -1,40 +1,54 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div style={styles.navbar}>
-      <h2 style={styles.logo}>KeenKeeper</h2>
+    <header style={styles.navbar}>
+      <div style={styles.logo}>
+  Keen<span style={styles.green}>Keeper</span>
+</div>
 
-      <div style={styles.links}>
-        <Link to="/" style={styles.link}>Home</Link>
-        <Link to="/timeline" style={styles.link}>Timeline</Link>
-        <Link to="/stats" style={styles.link}>Stats</Link>
-      </div>
-    </div>
+      <nav style={styles.links}>
+        <NavLink to="/" style={navStyle}>⌂ Home</NavLink>
+        <NavLink to="/timeline" style={navStyle}>◴ Timeline</NavLink>
+        <NavLink to="/stats" style={navStyle}>⌁ Stats</NavLink>
+      </nav>
+    </header>
   );
 }
 
+const navStyle = ({ isActive }) => ({
+  textDecoration: "none",
+  color: isActive ? "#fff" : "#6b7280",
+  background: isActive ? "#1f5c3f" : "transparent",
+  padding: "9px 14px",
+  borderRadius: "4px",
+  fontWeight: "700",
+  fontSize: "14px"
+});
+
 const styles = {
   navbar: {
+    height: "70px",
+    background: "#fff",
+    borderBottom: "1px solid #e5e7eb",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    padding: "20px 40px",
-    borderBottom: "1px solid #ddd",
-    backgroundColor: "#fff"
+    justifyContent: "space-between",
+    padding: "0 70px"
   },
   logo: {
-    fontWeight: "bold"
+    fontSize: "21px",
+    fontWeight: "800",
+    color: "#1f2937"
   },
   links: {
     display: "flex",
-    gap: "20px"
+    alignItems: "center",
+    gap: "10px"
   },
-  link: {
-    textDecoration: "none",
-    color: "#333",
-    fontWeight: "500"
+  green: {
+  color: "#1f5c3f"
   }
-};
+}
 
 export default Navbar;
