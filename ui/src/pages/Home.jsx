@@ -88,12 +88,15 @@ const styles = {
     fontWeight: "700",
     cursor: "pointer"
   },
+  const styles = {
   stats: {
     display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gap: "22px",
-    marginTop: "45px"
-  },
+    gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+    gap: "12px",
+    marginTop: "30px",
+    marginBottom: "30px"
+  }
+};
   statCard: {
     background: "white",
     borderRadius: "8px",

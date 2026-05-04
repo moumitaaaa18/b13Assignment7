@@ -1,105 +1,81 @@
-import { useOutletContext } from "react-router-dom";
+import React from "react";
 import {
   PieChart,
   Pie,
   Cell,
-  Legend,
   Tooltip,
+  Legend,
   ResponsiveContainer
 } from "recharts";
 
-function Stats() {
-  const { timeline } = useOutletContext();
+// Dummy data (later timeline theke dynamically nite parba)
+const data = [
+  { name: "Call", value: 3 },
+  { name: "Text", value: 5 },
+  { name: "Video", value: 2 }
+];
 
-  const callCount = timeline.filter((item) => item.type === "Call").length;
-  const textCount = timeline.filter((item) => item.type === "Text").length;
-  const videoCount = timeline.filter((item) => item.type === "Video").length;
+const COLORS = ["#2E7D32", "#6A1B9A", "#0288D1"];
 
-  const data = [
-    { name: "Text", value: textCount, color: "#7c3aed" },
-    { name: "Call", value: callCount, color: "#1f5c3f" },
-    { name: "Video", value: videoCount, color: "#2fac66" }
-  ];
-
-  const hasData = data.some((item) => item.value > 0);
-
+const Stats = () => {
   return (
-    <section style={styles.page}>
-      <div style={styles.container}>
-        <h1 style={styles.title}>Friendship Analytics</h1>
+    <div style={styles.container}>
+      <h1 style={styles.heading}>Friendship Analytics</h1>
 
-        <div style={styles.chartCard}>
-          <h3 style={styles.cardTitle}>By Interaction Type</h3>
+      <div style={styles.chartCard}>
+        <h3 style={styles.subHeading}>Interaction Type</h3>
 
-          {hasData ? (
-            <ResponsiveContainer width="100%" height={320}>
-              <PieChart>
-                <Tooltip />
-                <Pie
-                  data={data}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={75}
-                  outerRadius={110}
-                  paddingAngle={6}
-                >
-                  {data.map((entry) => (
-                    <Cell key={entry.name} fill={entry.color} />
-                  ))}
-                </Pie>
+        <div style={styles.chartWrapper}>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={data}
+                innerRadius={80}
+                outerRadius={120}
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data.map((entry, index) => (
+                  <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
 
-                <Legend
-                  verticalAlign="bottom"
-                  iconType="circle"
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          ) : (
-            <div style={styles.empty}>
-              No interaction data yet
-            </div>
-          )}
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
       </div>
-    </section>
+    </div>
   );
-}
+};
 
 export default Stats;
 
 const styles = {
-  page: {
-    background: "#f6f8fa",
-    minHeight: "620px",
-    padding: "75px 20px"
-  },
   container: {
-    maxWidth: "1180px",
-    margin: "0 auto"
+    padding: "30px",
+    textAlign: "center"
   },
-  title: {
-    fontSize: "42px",
-    fontWeight: "800",
-    color: "#1f2937",
+
+  heading: {
+    fontSize: "32px",
     marginBottom: "30px"
   },
+
   chartCard: {
     background: "#fff",
-    borderRadius: "8px",
-    padding: "34px",
-    minHeight: "360px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.06)"
+    borderRadius: "12px",
+    padding: "20px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.08)"
   },
-  cardTitle: {
-    color: "#1f5c3f",
-    fontSize: "18px",
+
+  subHeading: {
     marginBottom: "20px"
   },
-  empty: {
-    height: "250px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#6b7280"
+
+  chartWrapper: {
+    width: "100%",
+    height: "320px"
   }
 };
