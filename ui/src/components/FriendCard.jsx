@@ -1,35 +1,36 @@
+import { Link } from "react-router-dom";
+
 function FriendCard({ friend }) {
   if (!friend) return null;
 
   return (
-    <div style={styles.card}>
-      <img
-        src={friend.image}
-        alt={friend.name}
-        style={styles.img}
-      />
+    <Link to={`/friend/${friend.id}`} style={styles.link}>
+      <div style={styles.card}>
+        <img src={friend.image} alt={friend.name} style={styles.img} />
 
-      <h3 style={styles.name}>{friend.name}</h3>
+        <h3 style={styles.name}>{friend.name}</h3>
+        <p style={styles.days}>{friend.daysAgo}d ago</p>
 
-      <p style={styles.days}>{friend.daysAgo}d ago</p>
-
-      <span style={styles.tag}>
-        {friend.category}
-      </span>
-    </div>
+        <span style={styles.tag}>{friend.category}</span>
+      </div>
+    </Link>
   );
 }
 
 export default FriendCard;
 
 const styles = {
+  link: {
+    textDecoration: "none",
+    color: "inherit"
+  },
   card: {
     textAlign: "center",
     background: "white",
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 3px 12px rgba(0,0,0,0.08)",
-    transition: "0.3s"
+    cursor: "pointer"
   },
   img: {
     width: "70px",
