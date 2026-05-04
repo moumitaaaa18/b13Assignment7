@@ -1,0 +1,29 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
+
+import App from "./App";
+import Home from "./pages/Home";
+import FriendDetails from "./pages/FriendDetails";
+import Timeline from "./pages/Timeline";
+import Stats from "./pages/Stats";
+import NotFound from "./pages/NotFound";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "friend/:id", element: <FriendDetails /> },
+      { path: "timeline", element: <Timeline /> },
+      { path: "stats", element: <Stats /> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);
