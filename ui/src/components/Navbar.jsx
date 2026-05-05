@@ -4,8 +4,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <h2 className="logo">
-        Keen<span className="keeper-text">Keeper</span>
-      </h2>
+  Keen
+  <span style={{ color: "#1f5c3f" }}>Keeper</span>
+</h2>
 
       <div className="nav-links">
         <NavLink to="/">⌂ Home</NavLink>
