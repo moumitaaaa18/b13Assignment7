@@ -4,7 +4,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <h2 className="logo">
-        Keen<span>Keeper</span>
+        Keen<span className="keeper-text">Keeper</span>
       </h2>
 
       <div className="nav-links">
